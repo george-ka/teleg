@@ -1,3 +1,9 @@
+set-env-vars.sh
+authorized_users.json
+*.mp3
+*.oga
+*.log
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
