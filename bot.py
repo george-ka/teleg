@@ -53,7 +53,7 @@ async def get_user_context(user_id: str, key: str, default=None):
             return USERS_CONTEXT[user_id].get(key, default)
     finally:
         LOCK.release()
-        return None
+        return default
 
 def is_authorized_user(user_id: str) -> bool:
     return user_id in AUTHORIZED_USERS
@@ -129,7 +129,7 @@ async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     model = await get_user_context(update.message.from_user.id, "model", "gpt-3.5-turbo")
 
-    logging.info(f"Received command: {txt_message}")
+    logging.info(f"Received command: {txt_message}, model: {model}")
     response = CLIENT.chat.completions.create(
         model=model,
         messages=[
