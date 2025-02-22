@@ -190,8 +190,17 @@ def main():
     global CLIENT
     global AUTHORIZED_USERS
 
-    with open("authorized_users.json", "r") as auth_users_file:
-        AUTHORIZED_USERS = json.load(auth_users_file)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    auth_users_path = os.path.join(script_dir, "authorized_users.json") 
+
+    try:
+        with open(auth_users_path, "r") as auth_users_file:
+            AUTHORIZED_USERS = json.load(auth_users_file)
+            print("✅ Authorized users loaded successfully!")
+    except FileNotFoundError:
+        print(f"❌ Error: {auth_users_path} not found!")
+    except json.JSONDecodeError:
+        print(f"❌ Error: Invalid JSON in {auth_users_path}!")
 
     openai_api_key = os.getenv('OPENAI_API_KEY')
     openai.api_key = openai_api_key
